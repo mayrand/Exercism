@@ -4,7 +4,7 @@ class Gigasecond {
         this.dateFrom = date
     }
     date() {
-        return new Date(this.dateFrom.getTime() + 1000000000000)
+        return new Date(this.dateFrom.getTime() + 10 ** 12)
     }
 }
 
