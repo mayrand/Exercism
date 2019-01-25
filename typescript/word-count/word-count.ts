@@ -1,6 +1,6 @@
 class Words {
     count(input: string) {
-        const words = input.replace(/\t/g, ' ').split(' ')
+        const words = input.replace(/\t|\r?\n|\r/g, ' ').split(' ')
         const map = new Map()
         for (const word of words) {
             const lowerWord: string = word.toLowerCase().trim()
