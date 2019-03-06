@@ -7,16 +7,16 @@ export default class Triangle {
     }
 
     kind() {
-        if (this.sides.every(x => x === this.sides[0]))
+        if (!this.sides.every(x => x > 0)) {
+            throw "Incorrect triangle!"
+        }
+
+        if (this.sides.every(x => x === this.sides[0])) {
             return "equilateral"
-        let valuez = this.sides.reduce(function (values: any, value) {
-            if(value in values){
-                values[value]++
-            } else {
-                values[value]=1
-            }
-            return values        
-        })
-        return "scalene"
+        }
+        if (this.sides[0] !== this.sides[1] && this.sides[1] !== this.sides[2] && this.sides[0] !== this.sides[2]) {
+            return "scalene"
+        }
+        return "isosceles"
     }
 }
