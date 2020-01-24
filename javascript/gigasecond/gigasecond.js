@@ -1,3 +1,4 @@
 export const gigasecond = (date) => {
-  return new Date(1000000000000 + date.getTime());
+  let gigasecondInMiliseconds = 1e12;
+  return new Date(gigasecondInMiliseconds + date.getTime());
 };
