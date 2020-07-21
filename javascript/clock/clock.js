@@ -8,10 +8,15 @@ import { Console } from "console";
 export class Clock {
 
   constructor(hour = 0, minute = 0) {
-    let hoursInMinutes = minute > 59 ? minute / 60 : 0;
-    hour += Math.floor(hoursInMinutes);
-    this.hour = hour > 23 ? hour % 24 : hour;
-    this.minute = hoursInMinutes > 0 ? minute % 60 : minute;
+    let hoursInMinutes = Math.abs(minute) > 59 ? minute / 60 : 0;
+    hour = hoursInMinutes > 0 ? Math.floor(hoursInMinutes) + hour : Math.ceil(hoursInMinutes) + hour;
+    this.hour = Math.abs(hour) > 23 ? hour % 24 : hour;
+    if (this.hour < 0) this.hour = 24 + this.hour;
+    this.minute = minute % 60;
+    if (this.minute < 0) {
+      this.minute = 60 + this.minute;
+      this.hour--;
+    }
   }
 
   toString() {
@@ -21,15 +26,37 @@ export class Clock {
     return result;
   }
 
-  plus() {
-    throw new Error('Remove this statement and implement this function');
+  plus(minutes) {
+    let hoursInMinutes = minutes > 59 ? Math.floor(minutes / 60) : 0;
+    let minutesToAdd = minutes % 60;
+    if (this.minute + minutesToAdd > 59) {
+      this.hour++;
+      this.minute -= 60 - minutesToAdd;
+    } else {
+      this.minute += minutesToAdd;
+    }
+    this.hour += hoursInMinutes;
+    this.hour %= 24;
+    return this;
   }
 
-  minus() {
-    throw new Error('Remove this statement and implement this function');
+  minus(minutes) {
+    let hoursInMinutes = minutes > 59 ? Math.floor(minutes / 60) : 0;
+    let minutesToAdd = minutes % 60;
+    if (this.minute - minutesToAdd < 0) {
+      this.hour--;
+      this.minute = 60 - (minutesToAdd - this.minute);
+    } else {
+      this.minute -= minutesToAdd;
+    }
+    this.hour -= hoursInMinutes;
+    this.hour %= 24;
+    if (this.hour < 0)
+      this.hour = 24 + this.hour;
+    return this;
   }
 
-  equals() {
-    throw new Error('Remove this statement and implement this function');
+  equals(clock) {
+    return (this.hour === clock.hour && this.minute === clock.minute);
   }
 }
