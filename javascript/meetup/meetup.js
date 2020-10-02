@@ -6,8 +6,7 @@
 import { exception } from "console";
 
 export const meetup = (year, month, descriptor, dayName) => {
-  // let date = new Date(year, month - 1);
-  // let weekDay = date.getDay();  
+  let result;
   let day = -1;
   switch (dayName) {
     case 'Sunday':
@@ -39,54 +38,57 @@ export const meetup = (year, month, descriptor, dayName) => {
   switch (descriptor) {
     case 'first':
       if (day === first)
-        return new Date(year, month - 1, 1);
+        result = new Date(year, month - 1, 1);
       else if (day < first)
-        return new Date(year, month - 1, 1 + 7 - (first - day));
+        result = new Date(year, month - 1, 1 + 7 - (first - day));
       else
-        return new Date(year, month - 1, 1 + (day - first));
+        result = new Date(year, month - 1, 1 + (day - first));
       break;
     case 'second':
       if (day === first)
-        return new Date(year, month - 1, 1 + 7);
+        result = new Date(year, month - 1, 1 + 7);
       else if (day < first)
-        return new Date(year, month - 1, 1 + 14 - (first - day));
+        result = new Date(year, month - 1, 1 + 14 - (first - day));
       else
-        return new Date(year, month - 1, 1 + 7 + (day - first));
+        result = new Date(year, month - 1, 1 + 7 + (day - first));
       break;
     case 'third':
       if (day === first)
-        return new Date(year, month - 1, 1 + 14);
+        result = new Date(year, month - 1, 1 + 14);
       else if (day < first)
-        return new Date(year, month - 1, 1 + 21 - (first - day));
+        result = new Date(year, month - 1, 1 + 21 - (first - day));
       else
-        return new Date(year, month - 1, 1 + 14 + (day - first));
+        result = new Date(year, month - 1, 1 + 14 + (day - first));
       break;
     case 'fourth':
       if (day === first)
-        return new Date(year, month - 1, 1 + 21);
+        result = new Date(year, month - 1, 1 + 21);
       else if (day < first)
-        return new Date(year, month - 1, 1 + 28 - (first - day));
+        result = new Date(year, month - 1, 1 + 28 - (first - day));
       else
-        return new Date(year, month - 1, 1 + 21 + (day - first));
+        result = new Date(year, month - 1, 1 + 21 + (day - first));
       break;
     case 'last':
-      if (day === first)
-        return new Date(year, month - 1, 1 + 14);
-      else if (day < first)
-        return new Date(year, month - 1, 1 + 28 - (first - day));
+      let last = new Date(year, month, 0).getDay();
+      let days = new Date(year, month, 0).getDate();
+      if (day === last)
+        result = new Date(year, month, 0);
+      else if (day < last)
+        result = new Date(year, month - 1, days - (last - day));
       else
-        return new Date(year, month - 1, 1 + 21 + (day - first));
+        result = new Date(year, month - 1, days - 7 + (day - last));
       break;
     case 'teenth':
       let weekDay13 = new Date(year, month - 1, 13).getDay();
       if (day === weekDay13)
-        return new Date(year, month - 1, 13);
+        result = new Date(year, month - 1, 13);
       else if (day < weekDay13)
-        return new Date(year, month - 1, 13 + 7 - (weekDay13 - day));
+        result = new Date(year, month - 1, 13 + 7 - (weekDay13 - day));
       else
-        return new Date(year, month - 1, 13 + (day - weekDay13));
+        result = new Date(year, month - 1, 13 + (day - weekDay13));
       break;
     default:
       throw 'Unknown descriptor';
   }
+  return result;
 }
